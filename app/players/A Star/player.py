@@ -108,9 +108,6 @@ class Player():
             checked.append(frontiers[0].position)
             del frontiers[0]
 
-            traceback = None
-            next_node = None
-
             for child in children:
 
                 if child.position not in checked:
@@ -140,10 +137,6 @@ class Player():
         while traceback.parent != None:
             next_node = traceback
             traceback = traceback.parent
-
-        else:
-            traceback = traceback.parent
-            next_node = traceback.parent
 
         solution = traceback.actions[traceback.children.index(next_node)]
         search_tree = [node.toDict() for node in node_list]
