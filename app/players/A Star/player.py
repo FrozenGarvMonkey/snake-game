@@ -62,8 +62,9 @@ class Node:
         for point in points:
             # Manhattan Distance (sB: Snake Head, food: Nearest food location)
             hC = (abs(sB[0] - food[0]) + abs(sB[1] - food[1]))
+
             self.children.append(
-                Node(point, self, (self.cost + hC + 1)))
+                Node(point, self, (self.cost + hC)))
 
         # Modify actions, and expansion sequence
         self.actions = actions
@@ -131,11 +132,18 @@ class Player():
                         frontiers.append(child)
 
             expansion_sequence += 1
-            frontiers = sorted(frontiers, key=lambda x: x.cost, reverse=False)
+
+            # Sorts based on least cost, if reversed it essentially becomes Depth First Search
+            frontiers = sorted(
+                frontiers, key=lambda x: x.cost, reverse=False)
 
         while traceback.parent != None:
             next_node = traceback
             traceback = traceback.parent
+
+        else:
+            traceback = traceback.parent
+            next_node = traceback.parent
 
         solution = traceback.actions[traceback.children.index(next_node)]
         search_tree = [node.toDict() for node in node_list]

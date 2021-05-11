@@ -114,10 +114,6 @@ class Player():
             next_node = traceback
             traceback = traceback.parent
 
-        else:
-            traceback = traceback.parent
-            next_node = traceback.parent
-
         solution = traceback.actions[traceback.children.index(next_node)]
         search_tree = [node.toDict() for node in node_list]
         return solution, search_tree
