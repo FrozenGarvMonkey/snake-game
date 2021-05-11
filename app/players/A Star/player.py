@@ -1,6 +1,3 @@
-import random
-
-
 class Node:
     id = 1
 
@@ -141,11 +138,7 @@ class Player():
             next_node = traceback
             traceback = traceback.parent
 
-        try:
-            solution = traceback.actions[traceback.children.index(next_node)]
-        except Exception as e:
-            print(e)
-            solution = traceback.actions[random.choice([0, 1, 2, 3])]
+        solution = traceback.actions[traceback.children.index(next_node)]
 
         search_tree = [node.toDict() for node in node_list]
 
