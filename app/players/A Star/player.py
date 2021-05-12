@@ -77,7 +77,7 @@ class Node:
 
 class Player():
     name = "A* Search"
-    informed = False
+    informed = True
     group = "Artificial Codeine"
     members = [
         ["Michael Lu Han Xien", "18081588"],
