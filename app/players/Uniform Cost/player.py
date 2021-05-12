@@ -37,7 +37,7 @@ class Node:
                 "parent": None
             }
 
-    def expand(self, maze_size, expansion_sequence):
+    def expand(self, maze_size, expansion_sequence, snake_locations):
         # Generate side locations
         points = [
             [self.position[0], max(self.position[1]-1, 0)
@@ -56,6 +56,12 @@ class Node:
             del actions[points.index(self.position)]
             del points[points.index(self.position)]
 
+        # Remove snake locations
+        for snake in snake_locations:
+            if snake in points:
+                del actions[points.index(snake)]
+                del points[points.index(snake)]
+
         # Create child object and add them into the parent's children
         for point in points:
             self.children.append(Node(point, self, (self.cost+1)))
@@ -68,13 +74,15 @@ class Node:
 
 
 class Player():
-    name = "Uniform Cost Search"
+    name = "Uniform-Cost Seach"
     informed = False
     group = "Artificial Codeine"
-    members = ["Michael Lu Han Xien", "18081588",
-               "Garv Sudhir Nair", "19073535",
-               "Yong Tze Min", "19079748",
-               "Anjali Radha Krishna", "16009847"]
+    members = [
+        ["Michael Lu Han Xien", "18081588"],
+        ["Anjali Radha Krishna", "16009847"],
+        ["Garv Sudhir Nair", "19073535"],
+        ["Yong Tze Min", "19079748"]
+    ]
 
     def __init__(self, setup):
         Player.maze_size = setup["maze_size"]
@@ -98,10 +106,10 @@ class Player():
                 continue
 
             children = frontiers[0].expand(
-                Player.maze_size, expansion_sequence)
+                Player.maze_size, expansion_sequence, snake_locations)
             node_list.extend(children)
             checked.append(frontiers[0].position)
-            del frontiers[0]
+
             traceback = None
             next_node = None
 
@@ -119,14 +127,22 @@ class Player():
                     else:
                         frontiers.append(child)
 
+            if len(frontiers) == 1 and food_found == False:
+                food_found = True
+                traceback = frontiers[0]
+
             expansion_sequence += 1
+            del frontiers[0]
             frontiers = sorted(frontiers, key=lambda x: x.cost, reverse=False)
 
         while traceback.parent != None:
             next_node = traceback
             traceback = traceback.parent
 
-        solution = traceback.actions[traceback.children.index(next_node)]
+        if next_node == None:
+            solution = current_direction
+        else:
+            solution = traceback.actions[traceback.children.index(next_node)]
         search_tree = [node.toDict() for node in node_list]
 
         return solution, search_tree
