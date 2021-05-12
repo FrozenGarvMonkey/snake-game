@@ -1,3 +1,6 @@
+from timeit import default_timer as timer
+
+
 class Node:
     id = 1
 
@@ -88,6 +91,7 @@ class Player():
         self.static_length = setup["static_snake_length"]
 
     def run(self, problem):
+        t0 = timer()
         snake_locations = problem["snake_locations"]
         current_direction = problem["current_direction"]
         food_locations = problem["food_locations"]
@@ -128,7 +132,13 @@ class Player():
 
         if next_node == None:
             solution = current_direction
+            t1 = timer()
+            print("Execution Time (No Node): ", t1-t0)
         else:
             solution = traceback.actions[traceback.children.index(next_node)]
+            t1 = timer()
+            print("Execution Time (A*): ", t1-t0)
+        search_tree = [node.toDict() for node in node_list]
+
         search_tree = [node.toDict() for node in node_list]
         return solution, search_tree
