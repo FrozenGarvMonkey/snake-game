@@ -150,7 +150,7 @@ class Player():
         else:
             solution = traceback.actions[traceback.children.index(next_node)]
             t1 = timer()
-            print("Execution Time (A*): ", t1-t0)
+            print("Execution Time (UCS): ", t1-t0)
         search_tree = [node.toDict() for node in node_list]
 
         search_tree = [node.toDict() for node in node_list]
