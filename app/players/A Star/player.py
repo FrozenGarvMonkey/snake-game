@@ -1,6 +1,3 @@
-from timeit import default_timer as timer
-
-
 class Node:
     id = 1
 
@@ -129,18 +126,17 @@ class Player():
                 min(x+1, Player.maze_size[0]-1), y, point+1)  # Right
 
     def run(self, problem):
-        t0 = timer()
         snake_locations = problem["snake_locations"]
         current_direction = problem["current_direction"]
         food_locations = problem["food_locations"]
         Player.generateGrid(snake_locations, food_locations)
-        for row in Player.grid:
-            print(row)
         frontiers = [Node(snake_locations[0])]
         node_list = frontiers.copy()
         checked = snake_locations.copy()
         expansion_sequence = 1
         food_found = False
+        traceback = None
+        next_node = None
 
         while not food_found:
             if frontiers[0].position in food_locations:
@@ -152,9 +148,6 @@ class Player():
                 Player.maze_size, expansion_sequence, snake_locations)
             node_list.extend(children)
             checked.append(frontiers[0].position)
-
-            traceback = None
-            next_node = None
 
             for child in children:
                 if child.position not in checked:
@@ -185,12 +178,8 @@ class Player():
 
         if next_node == None:
             solution = current_direction
-            t1 = timer()
-            print("Execution Time (No Node): ", t1-t0)
         else:
             solution = traceback.actions[traceback.children.index(next_node)]
-            t1 = timer()
-            print("Execution Time (A*): ", t1-t0)
         search_tree = [node.toDict() for node in node_list]
 
         return solution, search_tree
