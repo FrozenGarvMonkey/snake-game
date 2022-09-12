@@ -5,7 +5,7 @@ Students of Artificial Intelligence (CSC3206) at Sunway University were tasked w
 * At every iteration, information of the game state is passed to the player and algorithm must utilize the information and return the next move.
 * Each AI player must be able to achieve a certain score to be considered successful.
 
-** Players
+## Players
 The algorithms implemented in this assignment are path-finding algorithms.
 Three different varient of path-finding [artificial intelligent players](https://github.com/Nonentity5565/Artificial_Intelligent_Snake_Game/tree/master/app/players) were implemented utilizing:
 * A-star Search
